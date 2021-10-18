@@ -1,0 +1,30 @@
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+        
+        // get the degree of an array 
+        HashMap<Integer, Integer> map = new HashMap<Integer,Integer>();
+        
+        //calculate degree
+        int degree = 0;
+        for(int i=0;i<nums.length;i++){
+            map.put(nums[i], map.getOrDefault(nums[i],0)+1);
+            degree = Math.max(degree, map.get(nums[i]));
+        }
+        
+        
+        //iterate the map to get the range
+        int min_range = Integer.MAX_VALUE;
+        for(HashMap.Entry<Integer,Integer> entry: map.entrySet()){
+            if(entry.getValue()==degree){
+                int left = 0;
+                int right = nums.length-1;
+                while(left<nums.length&&nums[left]!=entry.getKey()) left ++;
+                while(right> 0 && nums[right]!=entry.getKey()) right--;
+                min_range = Math.min(min_range, (right-left+1));
+            }
+        }
+        
+        return min_range;
+
+    }
+}
